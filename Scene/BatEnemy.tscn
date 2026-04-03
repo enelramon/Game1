@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b1jxqxfbd5173" path="res://Scripts/bat_enemy.gd" id="1_73mwc"]
 [ext_resource type="Texture2D" uid="uid://duwgjd2dmcii" path="res://Assets/enemies/e1.png" id="1_u1w5f"]
+[ext_resource type="Texture2D" uid="uid://bg7iuk0v8mshs" path="res://Assets/shadows/ss3.png" id="3_rusvf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_73mwc"]
 radius = 8.0
@@ -59,3 +60,7 @@ vframes = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1066646074]
 libraries/ = SubResource("AnimationLibrary_hfpqp")
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1633249843]
+position = Vector2(0, 12)
+texture = ExtResource("3_rusvf")

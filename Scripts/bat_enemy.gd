@@ -10,3 +10,8 @@ func _physics_process(_delta):
 	velocity = direction * speed
 	move_and_slide()
 	anim.play("Walk")
+	
+	if velocity.x < 0:
+		$Sprite2D.flip_h = true
+	elif velocity.x >0:
+		$Sprite2D.flip_h = false
