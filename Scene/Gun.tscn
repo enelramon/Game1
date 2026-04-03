@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://c4afw84tucotw"]
 
+[ext_resource type="Script" uid="uid://8rc3ifonto1n" path="res://Scripts/gun.gd" id="1_1ecfw"]
 [ext_resource type="Texture2D" uid="uid://bm5okj3buvpg0" path="res://Assets/weapons/gun.png" id="1_loa51"]
 
 [node name="Gun" type="Node2D" unique_id=35484608]
+script = ExtResource("1_1ecfw")
 
 [node name="Pivot" type="Marker2D" parent="." unique_id=1098235077]
 

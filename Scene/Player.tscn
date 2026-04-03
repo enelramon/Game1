@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b24o74x8spuif" path="res://Scripts/player.gd" id="1_3eeal"]
 [ext_resource type="Texture2D" uid="uid://bxf35lsbhtj3m" path="res://Assets/characters/c1.png" id="1_6l3be"]
 [ext_resource type="Texture2D" uid="uid://bg7iuk0v8mshs" path="res://Assets/shadows/ss3.png" id="3_jvxg0"]
+[ext_resource type="PackedScene" uid="uid://c4afw84tucotw" path="res://Scene/Gun.tscn" id="4_mud5u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3eeal"]
 size = Vector2(9, 4)
@@ -86,3 +87,5 @@ libraries/ = SubResource("AnimationLibrary_fvocf")
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1844426785]
 position = Vector2(0, 9)
 texture = ExtResource("3_jvxg0")
+
+[node name="Gun" parent="." unique_id=35484608 instance=ExtResource("4_mud5u")]
