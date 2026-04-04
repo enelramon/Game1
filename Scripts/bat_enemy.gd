@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal died
+
 var speed = 25
 
 var health = 3
@@ -26,6 +28,7 @@ func take_damage():
 	anim.play("Hurt")
 	health-= 1
 	if(health<=0):
+		died.emit()
 		queue_free()
 
 func _on_animation_finished(anim_name):
