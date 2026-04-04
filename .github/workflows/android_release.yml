@@ -24,11 +24,6 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Prepare Keystore
-        run: |
-          # Reemplaza 'tu_archivo.jks' por el nombre real de tu archivo en el repo
-          cp tu_archivo.jks release.jks 
-
       - name: Godot Android Export
         uses: firebelley/godot-export@v5.2.1
         with:
