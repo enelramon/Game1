@@ -14,9 +14,11 @@ func _ready() -> void:
 		enemy.died.connect(_on_enemy_died)
 
 func _on_enemy_died() -> void:
-	var current_count = get_tree().get_nodes_in_group("Enemies").size() - 1
-	var slots = MAX_ENEMIES - current_count
-	var to_spawn = min(2, slots)
+	call_deferred("_spawn_enemies")
+
+func _spawn_enemies() -> void:
+	var current_count = get_tree().get_nodes_in_group("Enemies").size()
+	var to_spawn = min(2, MAX_ENEMIES - current_count)
 	for i in range(to_spawn):
 		_spawn_enemy(SPAWN_POSITIONS[i % SPAWN_POSITIONS.size()])
 
