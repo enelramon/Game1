@@ -24,32 +24,33 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Godot Android Export
-        uses: firebelley/godot-export@v5.2.1
-        with:
-          godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_export_templates.tpz
-          relative_project_path: "./" 
-          archive_output: false
-          export_preset_name: "Android" 
-          # Forzamos una ruta de salida conocida
-          build_directory: "build"
+      - name: Install Godot 4.6
+        run: |
+          wget https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_linux.x86_64.zip
+          unzip Godot_v4.6-stable_linux.x86_64.zip
+          mv Godot_v4.6-stable_linux.x86_64 godot.exec
+          mkdir -p ~/.local/share/godot/export_templates/4.6.stable
+          wget https://github.com/godotengine/godot/releases/download/4.6-stable/Godot_v4.6-stable_export_templates.tpz
+          unzip Godot_v4.6-stable_export_templates.tpz -d ~/.local/share/godot/export_templates/4.6.stable
+          mv ~/.local/share/godot/export_templates/4.6.stable/templates/* ~/.local/share/godot/export_templates/4.6.stable/
+
+      # Creamos la carpeta exacta que requiere tu export_presets.cfg
+      - name: Create Export Directory
+        run: mkdir -p export
+
+      - name: Build APK
         env:
           ANDROID_HOME: ${{ env.ANDROID_HOME }}
-          ANDROID_KEYSTORE_PATH: "release.jks" 
-          ANDROID_KEYSTORE_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-
-      # PASO DE VERIFICACIÓN: Para ver en los logs si el APK se creó
-      - name: Check Build Folder
-        run: ls -R build/
+        run: |
+          # El comando --export-release "Android" fuerza a Godot a ignorar Windows y Web por completo
+          ./godot.exec --headless --path . --export-release "Android" export/Taino_Culture.apk
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v0.1.${{ github.run_number }}
-          name: "Game1 Apk - Build ${{ github.run_number }}"
-          # Buscamos cualquier archivo .apk dentro de la carpeta build
-          files: build/*/.apk
+          name: "Taino Culture - Build ${{ github.run_number }}"
+          files: export/Taino_Culture.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
