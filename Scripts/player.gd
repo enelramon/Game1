@@ -18,8 +18,8 @@ func _physics_process(_delta):
 	if(is_hurt==false):
 		if direction.length()>0:
 			anim.play("Walk")
-	else:
-		anim.play("Idle")
+		else:
+			anim.play("Idle")
 	
 	var mouse_pos = get_global_mouse_position()
 	
