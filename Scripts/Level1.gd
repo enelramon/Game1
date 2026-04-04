@@ -1,6 +1,8 @@
 extends Node2D
 
 const MAX_ENEMIES = 15
+const WAVE_SIZE = 2
+const WAVE_INTERVAL = 5.0
 
 const SPAWN_POSITIONS = [
 	Vector2(50, 50),
@@ -9,19 +11,28 @@ const SPAWN_POSITIONS = [
 
 @export var enemy_scene: PackedScene
 
-func _ready() -> void:
-	for enemy in get_tree().get_nodes_in_group("Enemies"):
-		enemy.died.connect(_on_enemy_died)
+var total_spawned: int = 0
+var wave_timer: Timer
 
-func _on_enemy_died() -> void:
-	var current_count = get_tree().get_nodes_in_group("Enemies").size() - 1
-	var slots = MAX_ENEMIES - current_count
-	var to_spawn = min(2, slots)
+func _ready() -> void:
+	wave_timer = Timer.new()
+	wave_timer.wait_time = WAVE_INTERVAL
+	wave_timer.autostart = true
+	wave_timer.timeout.connect(_on_wave_timer_timeout)
+	add_child(wave_timer)
+
+func _on_wave_timer_timeout() -> void:
+	if total_spawned >= MAX_ENEMIES:
+		wave_timer.stop()
+		return
+	var to_spawn = min(WAVE_SIZE, MAX_ENEMIES - total_spawned)
 	for i in range(to_spawn):
 		_spawn_enemy(SPAWN_POSITIONS[i % SPAWN_POSITIONS.size()])
+	if total_spawned >= MAX_ENEMIES:
+		wave_timer.stop()
 
 func _spawn_enemy(spawn_position: Vector2) -> void:
 	var enemy = enemy_scene.instantiate()
 	enemy.position = spawn_position
 	add_child(enemy)
-	enemy.died.connect(_on_enemy_died)
+	total_spawned += 1
