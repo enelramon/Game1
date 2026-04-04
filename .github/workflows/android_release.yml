@@ -1,0 +1,45 @@
+name: "Build and Release APK"
+
+on:
+  push:
+    branches:
+      - master  # Se dispara cada vez que hagas push a la rama master
+
+jobs:
+  build:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    permissions: write-all
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Asegura que traiga todo el historial si es necesario
+
+      - name: Godot Android Export
+        # Esta acción automatiza la descarga de Godot y los templates de exportación
+        uses: simoncreane/godot-android-export-action@v1.1.0
+        with:
+          godot-version: 4.2.1  # <-- ¡OJO! Cambia esto a la versión exacta que usas (ej. 4.3)
+          export-preset-name: "Android" # Debe ser igual al nombre en tu ventana de Exportar en Godot
+          exp-path: "build/game.apk"
+        env:
+          # Configuramos las variables para que Godot firme el APK usando tu archivo subido
+          # Reemplaza 'tu_archivo.jks' por el nombre real de tu archivo en el repo
+          ANDROID_KEYSTORE_PATH: "tu_archivo.jks" 
+          ANDROID_KEYSTORE_USER: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEYSTORE_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v0.1.${{ github.run_number }}
+          name: "Release v0.1 Build ${{ github.run_number }}"
+          body: "Nueva versión generada automáticamente tras push en master."
+          draft: false
+          prerelease: false
+          files: build/game.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
