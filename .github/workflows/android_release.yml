@@ -3,10 +3,10 @@ name: "Build and Release APK"
 on:
   push:
     branches:
-      - master  # Se dispara cada vez que hagas push a la rama master
+      - master
 
 jobs:
-  build:
+  export-android:
     name: Build and Release
     runs-on: ubuntu-latest
     permissions: write-all
@@ -14,32 +14,31 @@ jobs:
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Asegura que traiga todo el historial si es necesario
 
       - name: Godot Android Export
-        # Esta acción automatiza la descarga de Godot y los templates de exportación
-        uses: simoncreane/godot-android-export-action@v1.1.0
+        uses: firebelley/godot-export@v5.2.1
         with:
-          godot-version: 4.2.1  # <-- ¡OJO! Cambia esto a la versión exacta que usas (ej. 4.3)
-          export-preset-name: "Android" # Debe ser igual al nombre en tu ventana de Exportar en Godot
-          exp-path: "build/game.apk"
+          # Versión de Godot (Asegúrate de que coincida con la tuya)
+          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.2.1/Godot_v4.2.1-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.2.1/Godot_v4.2.1-stable_export_templates.tpz
+          relative_project_path: "./" # Donde está tu project.godot
+          archive_output: true
+          # IMPORTANTE: Este nombre debe ser el mismo que tienes en Godot > Exportar
+          export_preset_name: "Android" 
         env:
-          # Configuramos las variables para que Godot firme el APK usando tu archivo subido
-          # Reemplaza 'tu_archivo.jks' por el nombre real de tu archivo en el repo
+          # Usamos tus secretos y el archivo JKS que subiste
+          # Reemplaza 'nombre_de_tu_archivo.jks' por el real
           ANDROID_KEYSTORE_PATH: "tu_archivo.jks" 
-          ANDROID_KEYSTORE_USER: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEYSTORE_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEYSTORE_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v0.1.${{ github.run_number }}
-          name: "Release v0.1 Build ${{ github.run_number }}"
-          body: "Nueva versión generada automáticamente tras push en master."
-          draft: false
-          prerelease: false
-          files: build/game.apk
+          name: "Build ${{ github.run_number }}"
+          # La acción guarda el resultado en una carpeta específica
+          files: /home/runner/.local/share/godot/builds/**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
