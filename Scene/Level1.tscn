@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bfobykcs587qx" path="res://Assets/tiles/floor_tiles.png" id="2_he02s"]
 [ext_resource type="Texture2D" uid="uid://b6xs1qacmxfg" path="res://Assets/tiles/wall_tiles.png" id="3_he02s"]
 [ext_resource type="PackedScene" uid="uid://d3vj23avqiu8s" path="res://Scene/BatEnemy.tscn" id="4_10jwb"]
+[ext_resource type="Script" path="res://Scripts/Level1.gd" id="5_level1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_040fq"]
 texture = ExtResource("2_he02s")
@@ -72,6 +73,8 @@ sources/1 = SubResource("TileSetAtlasSource_o5v15")
 
 [node name="Level1" type="Node2D" unique_id=1280532993]
 y_sort_enabled = true
+script = ExtResource("5_level1")
+enemy_scene = ExtResource("4_10jwb")
 
 [node name="Player" parent="." unique_id=80503479 instance=ExtResource("1_kr1fj")]
 z_index = 1
