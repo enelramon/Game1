@@ -92,7 +92,7 @@ corner_radius_bottom_left = 10
 radius = 7.0
 height = 20.0
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=80503479]
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=80503479 groups=["Player"]]
 platform_floor_layers = 4294901760
 script = ExtResource("1_3eeal")
 
@@ -102,7 +102,7 @@ texture = ExtResource("1_6l3be")
 hframes = 6
 vframes = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=302079681]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=302079681 groups=["Player"]]
 position = Vector2(-0.5, 7)
 shape = SubResource("RectangleShape2D_3eeal")
 
@@ -127,8 +127,8 @@ show_percentage = false
 
 [node name="Gun" parent="." unique_id=35484608 instance=ExtResource("4_mud5u")]
 
-[node name="HurtZone" type="Area2D" parent="." unique_id=631377922]
+[node name="HurtZone" type="Area2D" parent="." unique_id=631377922 groups=["Player"]]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtZone" unique_id=510643787]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtZone" unique_id=510643787 groups=["Player"]]
 position = Vector2(0, -3)
 shape = SubResource("CapsuleShape2D_mud5u")

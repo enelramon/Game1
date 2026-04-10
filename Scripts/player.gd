@@ -3,6 +3,8 @@ extends CharacterBody2D
 var speed=125
 var health = 100
 
+
+
 @onready var anim= $AnimationPlayer
 
 var is_hurt = false
