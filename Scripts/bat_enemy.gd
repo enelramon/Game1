@@ -10,6 +10,8 @@ var health = 3
 var shoot_interval = 1.5
 var bullet_scene = preload("res://Scene/Enemy_bullet.tscn")
 
+signal enemy_died
+
 func _ready() -> void:
 	anim.play("Walk")
 	anim.connect("animation_finished", self._on_animation_finished)
@@ -30,6 +32,7 @@ func take_damage():
 	anim.play("Hurt")
 	health-= 1
 	if(health<=0):
+		emit_signal("enemy_died")
 		queue_free()
 
 func _on_animation_finished(anim_name):
