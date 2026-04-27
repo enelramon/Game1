@@ -61,8 +61,13 @@ Shoot={
 ]
 }
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/virtual_joystick/plugin.cfg")
+
 [input_devices]
 
+pointing/emulate_touch_from_mouse=true
 pointing/android/enable_long_press_as_right_click=true
 pointing/android/enable_pan_and_scale_gestures=true
 
