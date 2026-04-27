@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://duwgjd2dmcii" path="res://Assets/enemies/e1.png" id="8_d8c13"]
 [ext_resource type="Texture2D" uid="uid://bg7iuk0v8mshs" path="res://Assets/shadows/ss3.png" id="9_8m71o"]
 [ext_resource type="PackedScene" uid="uid://c7v8qlkivco3c" path="res://Scene/Door.tscn" id="10_lfbnc"]
+[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="11_joystick"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_040fq"]
 texture = ExtResource("2_he02s")
@@ -177,3 +178,7 @@ polygon = PackedVector2Array(-38, -109, -35, 78, 212, 79, 209, 30, 246, 32, 249,
 
 [node name="Node2D" parent="." unique_id=1433878681 instance=ExtResource("10_lfbnc")]
 position = Vector2(306, 142)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="VirtualJoystick" parent="HUD" instance=ExtResource("11_joystick")]
